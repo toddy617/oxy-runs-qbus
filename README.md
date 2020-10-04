@@ -1,7 +1,7 @@
-# oxy-runs-qbus
-oxy runs for qbus
+# qb-oxyruns
+No-Pixel Oxy runs converted to QB-Core framework.
 
-add this to you client consumables.lua
+Add this to you qb-smallresources/client/consumables.lua
 
 ```lua
 RegisterNetEvent("consumables:client:Oxy")
@@ -20,7 +20,7 @@ AddEventHandler("consumables:client:Oxy", function(itemName)
 end)
 ```
 
-add this to you server consumables.lua
+add this to you qb-smallresources/server/consumables.lua
 
 ```lua
 QBCore.Functions.CreateUseableItem("oxy", function(source, item)
@@ -31,7 +31,7 @@ QBCore.Functions.CreateUseableItem("oxy", function(source, item)
 end)
 ```
 
-and last but not least add this to your shared.lua in the core
+and last but not least add this to your qb-core/shared.lua in the core
 
 ```lua
 ["oxy"] 			             = {["name"] = "oxy", 				            ["label"] = "Oxy", 				        ["weight"] = 700, 		["type"] = "item", 		["image"] = "oxy.png", 		            ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "Get that stress GONE"},
