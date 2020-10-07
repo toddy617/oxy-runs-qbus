@@ -15,9 +15,30 @@ AddEventHandler("consumables:client:Oxy", function(itemName)
     }, {}, {}, {}, function() -- Done
         TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[itemName], "remove")
         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
-        TriggerServerEvent('qb-hud:Server:RelieveStress', math.random(40, 50))
+        OxyEffect()
     end)
 end)
+
+function OxyEffect()
+    if not onWeed then
+        local RelieveOdd = math.random(35, 45)
+        onOxy = true
+        local OxyTime = 60
+        Citizen.CreateThread(function()
+            while onOxy do 
+                SetPlayerHealthRechargeMultiplier(PlayerId(), 1.8)
+                Citizen.Wait(1000)
+                oxyTime = oxyTime - 1
+                if oxyTime == RelieveOdd then
+                    TriggerServerEvent('qb-hud:Server:RelieveStress', math.random(14, 18))
+                end
+                if oxyTime <= 0 then
+                    onOxy = false
+                end
+            end
+        end)
+    end
+end
 ```
 
 add this to you qb-smallresources/server/consumables.lua
@@ -36,3 +57,6 @@ and last but not least add this to your qb-core/shared.lua in the core
 ```lua
 ["oxy"] 			             = {["name"] = "oxy", 				            ["label"] = "Oxy", 				        ["weight"] = 700, 		["type"] = "item", 		["image"] = "oxy.png", 		            ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "Get that stress GONE"},
 ```
+
+# Credits
+Mojito#4595- Fixed it all.
