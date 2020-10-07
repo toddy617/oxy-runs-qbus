@@ -113,7 +113,7 @@ function CreateOxyVehicle()
 
     while true do
     	Citizen.Wait(1)
-    	 DrawText3Ds(carspawns[spawnpoint]["x"], carspawns[spawnpoint]["y"], carspawns[spawnpoint]["z"], "Your Delivery Car (Stolen).")
+    	 QBCore.Functions.DrawText3D(carspawns[spawnpoint]["x"], carspawns[spawnpoint]["y"], carspawns[spawnpoint]["z"], "Your Delivery Car (Stolen).")
     	 if #(GetEntityCoords(PlayerPedId()) - vector3(carspawns[spawnpoint]["x"], carspawns[spawnpoint]["y"], carspawns[spawnpoint]["z"])) < 8.0 then
     	 	return
     	 end
@@ -266,21 +266,6 @@ function DoDropOff()
 	end
 end
 
-function DrawText3Ds(x,y,z, text)
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
-    local px,py,pz=table.unpack(GetGameplayCamCoords())
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(1)
-    AddTextComponentString(text)
-    DrawText(_x,_y)
-    local factor = (string.len(text)) / 370
-    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
-end
-
 RegisterNetEvent("oxydelivery:client")
 AddEventHandler("oxydelivery:client", function()
 
@@ -309,8 +294,8 @@ AddEventHandler("oxydelivery:client", function()
 			pedCreated = true
 			DeleteCreatedPed()
 			CreateOxyPed()
-			QBCore.Functions.Notify('You are close to the drop off..', 'inform')
-			--exports['mythic_notify']:DoHudText('inform', 'You are close to the drop off', 10000)
+			QBCore.Functions.Notify('You are close to the drop off..', 'success')
+			--exports['mythic_notify']:DoHudText('success', 'You are close to the drop off', 10000)
 		end
 		toolong = toolong - 1
 		if toolong < 0 then
@@ -319,13 +304,13 @@ AddEventHandler("oxydelivery:client", function()
 			SetEntityAsNoLongerNeeded(oxyVehicle)
 			tasking = false
 			OxyRun = false
-			QBCore.Functions.Notify('You are no longer selling Oxy due to taking too long to drop off..', 'inform')
-			--exports['mythic_notify']:DoHudText('inform', 'You are no longer selling Oxy due to taking too long to drop off', 10000)
+			QBCore.Functions.Notify('You are no longer selling Oxy due to taking too long to drop off..', 'success')
+			--exports['mythic_notify']:DoHudText('success', 'You are no longer selling Oxy due to taking too long to drop off', 10000)
 		end
 		if dstcheck < 2.0 and pedCreated then
 
 			local crds = GetEntityCoords(deliveryPed)
-			DrawText3Ds(crds["x"],crds["y"],crds["z"], "[E]")  
+			QBCore.Functions.DrawText3D(crds["x"],crds["y"],crds["z"], "[E]")  
 
 			if not IsPedInAnyVehicle(PlayerPedId()) and IsControlJustReleased(0,38) then
 				TaskTurnPedToFaceEntity(deliveryPed, PlayerPedId(), 1.0)
@@ -354,7 +339,7 @@ Citizen.CreateThread(function()
 
 		if dropOff6 < 1.6 and not OxyRun then
 
-			DrawText3Ds(pillWorker["x"],pillWorker["y"],pillWorker["z"], "[E] $1500 - Delivery Job (Payment Cash + Oxy)") 
+			QBCore.Functions.DrawText3D(pillWorker["x"],pillWorker["y"],pillWorker["z"], "[E] $1500 - Delivery Job (Payment Cash + Oxy)") 
 			if IsControlJustReleased(0,38) then
 				TriggerServerEvent("oxydelivery:server")
 				Citizen.Wait(1000)
@@ -432,7 +417,7 @@ Citizen.CreateThread(function()
 
 						local price = 100
 
-			    		DrawText3Ds(drugLocs[i]["x"],drugLocs[i]["y"],drugLocs[i]["z"], "[E] $" .. price .. " offer to sell stolen goods (12).") 
+			    		QBCore.Functions.DrawText3D(drugLocs[i]["x"],drugLocs[i]["y"],drugLocs[i]["z"], "[E] $" .. price .. " offer to sell stolen goods (12).") 
 				    	
 				    	if IsControlJustReleased(0,38) then
 
@@ -482,6 +467,6 @@ AddEventHandler("oxydelivery:startDealing", function()
 	OxyRun = true
 	firstdeal = true 
 	QBCore.Functions.Notify('A car has been left outside for you. Your pager will be updated with locations soon..', 'success')
-	--exports['mythic_notify']:DoHudText('inform', 'A car has been left outside for you. Your pager will be updated with locations soon', 10000)
+	--exports['mythic_notify']:DoHudText('success', 'A car has been left outside for you. Your pager will be updated with locations soon', 10000)
 	CreateOxyVehicle()
 end)
