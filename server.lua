@@ -29,12 +29,12 @@ RegisterServerEvent('oxydelivery:receiveoxy')
 AddEventHandler('oxydelivery:receiveoxy', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-
-	Player.Functions.AddMoney('cash',Config.Payment / 2)
+    pay = math.floor(Config.Payment / 2)
+	Player.Functions.AddMoney('cash',pay)
 	Player.Functions.AddItem("oxy", Config.OxyAmount)
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["oxy"], 'add')
 
-    TriggerClientEvent('QBCore:Notify', src, "You were handed $ "..Config.Payment.. " and some oxy!")
+    TriggerClientEvent('QBCore:Notify', src, "You were handed $ "..pay.. " and some oxy!")
 	---TriggerClientEvent('mythic_notify:client:DoHudText', source, { type = 'success', text = 'You were handed $'..Config.Payment.. 'and some oxy!', length = 10000})
 end)
 
