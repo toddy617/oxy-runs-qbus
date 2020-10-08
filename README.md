@@ -20,7 +20,7 @@ AddEventHandler("consumables:client:Oxy", function(itemName)
 end)
 
 function OxyEffect()
-    if not onWeed then
+    if not onOxy then
         local RelieveOdd = math.random(35, 45)
         onOxy = true
         local OxyTime = 60
